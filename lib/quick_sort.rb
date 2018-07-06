@@ -21,7 +21,7 @@ class QuickSort
     return array if length < 2
     pivot_idx = QuickSort.partition(array, start, length, &prc)
     QuickSort.sort2!(array, start, pivot_idx - start, &prc)
-    QuickSort.sort2!(array, pivot_idx + 1, length - ((pivot_idx - start) + 1), &prc)
+    QuickSort.sort2!(array, pivot_idx + 1, length - (pivot_idx + 1), &prc)
     array
   end
 
@@ -29,9 +29,8 @@ class QuickSort
   def self.partition(array, start, length, &prc)
     return if length < 2
     prc ||= Proc.new { |el1, el2| el1 <=> el2 }
-    pivot_idx = start
-    pivot = array[pivot_idx]
-    barrier_idx = pivot_idx + 1
+    pivot = array[start]
+    barrier_idx = start + 1
     idx = barrier_idx
     while idx < (start + length)
       curr = array[idx]
@@ -41,7 +40,7 @@ class QuickSort
       end
       idx += 1
     end
-    array[pivot_idx], array[barrier_idx - 1] = array[barrier_idx - 1], array[pivot_idx]
+    array[start], array[barrier_idx - 1] = array[barrier_idx - 1], array[start]
     return barrier_idx - 1
   end
 end
